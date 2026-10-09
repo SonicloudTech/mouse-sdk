@@ -1,0 +1,10 @@
+* text=auto
+
+# 二进制产物：禁止行尾/编码归一化
+*.zip  binary
+*.png  binary
+*.dll  binary
+*.dylib binary
+*.lib  binary
+*.rar  binary
+*.pdf  binary

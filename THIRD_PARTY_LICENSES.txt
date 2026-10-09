@@ -1,0 +1,69 @@
+================================================================================
+ uMouseSdk —— 第三方组件许可与归属声明 (THIRD-PARTY NOTICES)
+================================================================================
+
+本文件列出 uMouseSdk（声云智能鼠标 SDK）二进制交付包中包含或动态链接的
+第三方开源组件、其许可证及必须履行的义务。随发布物一并分发本文件即满足对应
+许可证的“署名/声明”要求。
+
+交付包中的第三方运行期文件：
+
+【Windows x64 包（uMouseSdk.dll）】
+  - avcodec-58.dll / avutil-56.dll （FFmpeg 4.2.1，LGPL v2.1+，动态链接）
+
+【macOS arm64 包（libuMouseSdk.dylib）】
+  - libavcodec.62.dylib（→ libavcodec.62.28.102.dylib）/ libavutil.60.dylib
+    （→ libavutil.60.26.102.dylib）（FFmpeg 8.1.2 定制裁剪构建，LGPL v2.1+，
+    仅含 sbc / adpcm_ima_wav 音频解码器，未启用 GPL 组件，动态链接）
+
+（HIDAPI 在两个平台均以源码形式静态编入主库，非独立文件；BSD 许可仅需保留
+  署名，见第 2 节。）
+
+重要合规约束（务必遵守）：
+  * FFmpeg 以**动态链接（独立动态库）**方式随附，这是满足 LGPL“允许最终用户
+    替换该库”义务的最简方式。**请勿将 FFmpeg 静态链接进 uMouseSdk 主库**，
+    否则须额外提供可重链接的目标文件等价机制，合规成本骤增。
+  * 分发时必须一并附带本文件、下述 LGPL v2.1 全文（COPYING.LGPLv2.1）、以及
+    hidapi 的 BSD 声明（LICENSE.hidapi-bsd）。
+
+--------------------------------------------------------------------------------
+ 1. FFmpeg (libavcodec / libavutil)
+--------------------------------------------------------------------------------
+用途      : 音频解码（SBC 软解、ADPCM 等）
+版本      : Windows 包 4.2.1（libavcodec 58.x / libavutil 56.31.100）；
+            macOS 包 8.1.2 定制构建（libavcodec 62.28.102 / libavutil 60.26.102）
+主页      : https://ffmpeg.org
+许可证    : GNU Lesser General Public License, version 2.1 or later (LGPL-2.1+)
+            两个平台的构建均**未**启用 --enable-gpl、**未**启用 --enable-nonfree，
+            以 LGPL 方式授权。macOS 包为按 SDK 实际使用的解码器裁剪的最小构建
+            （构建配置见包内 README，可复现）。
+版权      : Copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at> 等 FFmpeg 贡献者
+            This software uses libraries from the FFmpeg project under the LGPLv2.1.
+
+LGPL 要求的义务（本发布物履行方式）：
+  (a) 附带 LGPL v2.1 许可证全文  → 见随附文件 COPYING.LGPLv2.1
+  (b) 声明使用了 FFmpeg 并标注其为 LGPL 授权（即本节）
+  (c) 以动态库形式提供，最终用户可用兼容版本的同名动态库自行替换
+  (d) 提供所用 FFmpeg 版本的对应源码获取途径：
+      https://ffmpeg.org/releases/ （macOS 包的精确构建配置见包内 README）
+
+--------------------------------------------------------------------------------
+ 2. HIDAPI
+--------------------------------------------------------------------------------
+用途      : USB-HID 设备通信（源码静态编入主库，跨平台后端 windows/linux/mac）
+版本      : 0.16.0（源码内联）
+主页      : https://github.com/libusb/hidapi
+许可证    : 三重可选授权 —— GNU GPLv3 / BSD-Style / 原始 HIDAPI 许可。
+            **本产品选择按 BSD-3-Clause 许可使用**（商用友好，无 copyleft 义务）。
+版权      : Copyright (c) 2010, Alan Ott, Signal 11 Software; libusb/hidapi Team.
+
+BSD-3-Clause 要求的义务（本发布物履行方式）：
+  (a) 保留上述版权声明与本许可声明（即本节）
+  (b) 不得以原作者/贡献者的名义为衍生产品背书
+  (c) 见随附文件 LICENSE.hidapi-bsd（BSD-3-Clause 全文）
+
+--------------------------------------------------------------------------------
+ 备注：uMouseSdk 自身代码（含 umouse_sdk.*、uMouseService 传输层、MouseCommon
+ 协议/音频、ScCommon、自研 btble 蓝牙栈）为声云（安徽声云）版权所有，授权条款
+ 以随附的商业授权协议为准，不适用于本文件所述第三方许可证。
+================================================================================

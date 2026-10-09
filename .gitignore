@@ -1,0 +1,8 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# Local packaging scratch
+_pkgtmp/
