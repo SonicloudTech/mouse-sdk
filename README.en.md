@@ -2,6 +2,8 @@
 
 Languages: [简体中文](README.md) · **English**
 
+[![release](https://img.shields.io/badge/release-v0.4.20-blue)](https://github.com/SonicloudTech/mouse-sdk/releases) ![platforms](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey) ![arch](https://img.shields.io/badge/arch-x86__64%20%7C%20ARM64-orange) ![ABI](https://img.shields.io/badge/ABI-pure%20C-9cf) [![samples](https://img.shields.io/badge/demo%20samples-MIT-green)](LICENSE)
+
 > A **cross-platform, cross-architecture** smart mouse SDK: Windows / macOS / Linux (incl. Chinese domestic systems UOS, Kylin, FangDe) × x86_64 / ARM64, dual-channel USB (HID) & BLE (Bluetooth Low Energy), pure C ABI.
 
 The SoniCloud Smart Mouse SDK is a smart-mouse integration solution for hardware vendors, software developers, and industry integrators: one unified C interface and event protocol covering the full chain of device discovery, connection, and key / event / audio data delivery. This repository provides:

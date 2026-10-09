@@ -4,6 +4,8 @@ uMouse SDK · SoniCloud Smart Mouse SDK
 
 语言 / Languages：**简体中文 + English 同页双语（bilingual on one page）** · 纯英文版 English-only：[README.en.md](README.en.md)
 
+[![release](https://img.shields.io/badge/release-v0.4.20-blue)](https://github.com/SonicloudTech/mouse-sdk/releases) ![platforms](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey) ![arch](https://img.shields.io/badge/arch-x86__64%20%7C%20ARM64-orange) ![ABI](https://img.shields.io/badge/ABI-pure%20C-9cf) [![samples](https://img.shields.io/badge/demo%20samples-MIT-green)](LICENSE)
+
 > 一套**跨系统、跨架构**的智能鼠标接入 SDK：Windows / macOS / Linux（含统信 UOS、麒麟 Kylin、方德 FangDe 等国产系统）× x86_64 / ARM64，USB（HID）与 BLE（蓝牙低功耗）双通道，纯 C ABI。
 >
 > A **cross-platform, cross-architecture** smart mouse SDK: Windows / macOS / Linux (incl. Chinese domestic systems UOS, Kylin, FangDe) × x86_64 / ARM64, dual-channel USB (HID) & BLE (Bluetooth Low Energy), pure C ABI.
