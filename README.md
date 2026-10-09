@@ -1,5 +1,7 @@
 # 声云智能鼠标 SDK（uMouse SDK）
 
+语言 / Languages：**简体中文** · [English](README.en.md)
+
 > 一套**跨系统、跨架构**的智能鼠标接入 SDK：Windows / macOS / Linux（含统信 UOS、麒麟 Kylin、方德 FangDe 等国产系统）× x86_64 / ARM64，USB（HID）与 BLE（蓝牙低功耗）双通道，纯 C ABI。
 >
 > Cross-platform & cross-architecture smart mouse SDK (Windows / macOS / Linux, x86_64 / ARM64), USB & BLE dual-channel, pure C ABI.
@@ -52,6 +54,7 @@ C 接口与事件协议，覆盖设备发现连接、按键/事件/音频数据�
 
 ```
 ├── README.md                  本文件
+├── README.en.md               English README
 ├── docs/第三方接入说明.md       完整接入文档（v2.2）
 ├── include/umouse_sdk.h       对外唯一头文件（纯 C ABI）
 ├── demo/                      C 示例（demo.c 最小接入 / demo3.c 多设备混合模式）
