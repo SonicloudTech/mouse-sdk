@@ -9,7 +9,7 @@ The SoniCloud Smart Mouse SDK is a smart-mouse integration solution for hardware
 | Resource | Description |
 |---|---|
 | Platform packages | Windows x64 / macOS ARM64 binary packages (`packages/`, currently 0.4.20); other platform combinations via sales |
-| Documentation | [docs/第三方接入说明.md](docs/第三方接入说明.md) (v2.2, in Chinese — API reference, JSON event protocol, C/C++/C#/Python/Electron integration, FAQ) |
+| Documentation | English: [docs/Integration-Guide.en.md](docs/Integration-Guide.en.md) · 中文: [docs/第三方接入说明.md](docs/第三方接入说明.md) (both v2.2 — API reference, JSON event protocol, C/C++/C#/Python/Electron integration, FAQ) |
 | Header | `include/umouse_sdk.h` — the single public header, pure C ABI |
 | Samples | `demo/` (minimal / event printing / multi-device mixed mode, plain C) |
 | Notices | `THIRD_PARTY_LICENSES.txt` with accompanying license texts |
@@ -43,7 +43,8 @@ The SoniCloud Smart Mouse SDK is a smart-mouse integration solution for hardware
 ```
 ├── README.md                  This repo's README (Chinese)
 ├── README.en.md               English README (this file)
-├── docs/第三方接入说明.md       Full integration documentation, v2.2 (Chinese)
+├── docs/Integration-Guide.en.md  Full integration documentation, v2.2 (English)
+├── docs/第三方接入说明.md       Same documentation in Chinese, v2.2
 ├── include/umouse_sdk.h       The single public header (pure C ABI)
 ├── demo/                      C samples (demo.c minimal / demo3.c multi-device)
 ├── packages/                  Platform packages
@@ -75,7 +76,8 @@ cc -IuMouseSdk/include demo/demo.c -LuMouseSdk -luMouseSdk -o demo && ./demo
 Core call order: **register callbacks → `um_sdk_init()` → run your business logic → `um_sdk_close()`**.
 The SDK faithfully delivers hardware data (key events / JSON discrete events / PCM audio on three
 callback lines); what the M key does and how audio gets recognized is entirely up to you. For the
-full walkthrough and per-language guides see [docs/第三方接入说明.md](docs/第三方接入说明.md) (Chinese).
+full walkthrough and per-language guides see the [Integration Guide (English)](docs/Integration-Guide.en.md)
+or its Chinese original [docs/第三方接入说明.md](docs/第三方接入说明.md).
 
 ## Integration Languages
 
