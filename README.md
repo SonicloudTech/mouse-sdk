@@ -108,11 +108,11 @@ cc -IuMouseSdk/include demo/demo.c -LuMouseSdk -luMouseSdk -o demo && ./demo
 
 ## 硬件适配与技术支持 · Hardware & SDK Access
 
-如需获取信创（UOS / 麒麟 / 方德）与其他架构的交付包、硬件规格、样机、协议完整版、企业微信二维码或技术支持资料，请联系 **安徽声云**：[sinicloud.com](https://www.sinicloud.com/)，开放平台 [open.sinicloud.com](https://open.sinicloud.com/)。咨询时请说明目标平台、预计数量和应用场景。
+如需获取信创（UOS / 麒麟 / 方德）与其他架构的交付包、硬件规格、样机、协议完整版、微信二维码或技术支持资料，请联系 **安徽声云**：[sinicloud.com](https://www.sinicloud.com/)，开放平台 [open.sinicloud.com](https://open.sinicloud.com/)。咨询时请说明目标平台、预计数量和应用场景。
 
-*For packages of Chinese domestic OS platforms (UOS / Kylin / FangDe) and other architectures, hardware specs, evaluation units, the full protocol, a WeChat Work contact QR code, or technical support materials, contact **SoniCloud** (安徽声云智能科技有限公司): [sinicloud.com](https://www.sinicloud.com/), open platform [open.sinicloud.com](https://open.sinicloud.com/). Please mention your target platform, expected volume and use case.*
+*For packages of Chinese domestic OS platforms (UOS / Kylin / FangDe) and other architectures, hardware specs, evaluation units, the full protocol, a WeChat QR code, or technical support materials, contact **SoniCloud** (安徽声云智能科技有限公司): [sinicloud.com](https://www.sinicloud.com/), open platform [open.sinicloud.com](https://open.sinicloud.com/). Please mention your target platform, expected volume and use case.*
 
-<img src="img/企业微信.png" alt="企业微信 WeChat Work" width="200" style="max-width: 100%; height: auto;">
+<img src="img/微信.png" alt="微信 WeChat" width="200" style="max-width: 100%; height: auto;">
 
 ## 第三方组件与许可 · Third-Party Components & Licensing
 

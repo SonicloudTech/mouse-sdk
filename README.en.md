@@ -101,12 +101,12 @@ Pure C ABI — callable from mainstream languages with no proprietary runtime:
 ## Hardware & SDK Access
 
 For packages of Chinese domestic OS platforms (UOS / Kylin / FangDe) and other architectures,
-hardware specs, evaluation units, the full protocol, a WeChat Work contact QR code, or technical
+hardware specs, evaluation units, the full protocol, a WeChat QR code, or technical
 support materials, contact **SoniCloud** (安徽声云智能科技有限公司):
 [sinicloud.com](https://www.sinicloud.com/), open platform [open.sinicloud.com](https://open.sinicloud.com/).
-Please mention your target platform, expected volume, and use case.
+Please mention your target platform, expected volume and use case.
 
-<img src="img/企业微信.png" alt="WeChat Work" width="200" style="max-width: 100%; height: auto;">
+<img src="img/微信.png" alt="WeChat" width="200" style="max-width: 100%; height: auto;">
 
 ## Third-Party Components & Licensing
 
