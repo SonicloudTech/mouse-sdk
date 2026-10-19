@@ -114,6 +114,10 @@ cc -IuMouseSdk/include demo/demo.c -LuMouseSdk -luMouseSdk -o demo && ./demo
 
 <img src="img/微信.png" alt="微信 WeChat" width="200" style="max-width: 100%; height: auto;">
 
+<br>
+
+**商务与技术联系 · Business & technical contact:** [xu_heng_yu@sinicloud.com](mailto:xu_heng_yu@sinicloud.com)
+
 ## 第三方组件与许可 · Third-Party Components & Licensing
 
 SDK 二进制动态链接 FFmpeg（LGPL-2.1+，独立动态库形式随附，可由最终用户自行替换）并静态编入 HIDAPI（BSD-3-Clause）；macOS 包为按实际使用的音频解码器裁剪的最小 FFmpeg 构建（无 GPL 组件，构建配置见包内 README）。署名与义务履行方式见 `THIRD_PARTY_LICENSES.txt` 与随附许可证全文。

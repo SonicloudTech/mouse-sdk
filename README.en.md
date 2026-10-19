@@ -108,6 +108,10 @@ Please mention your target platform, expected volume and use case.
 
 <img src="img/微信.png" alt="WeChat" width="200" style="max-width: 100%; height: auto;">
 
+<br>
+
+**Business & technical contact:** [xu_heng_yu@sinicloud.com](mailto:xu_heng_yu@sinicloud.com)
+
 ## Third-Party Components & Licensing
 
 The SDK binaries dynamically link FFmpeg (LGPL-2.1+, shipped as standalone dynamic libraries that
