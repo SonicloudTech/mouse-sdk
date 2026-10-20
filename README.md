@@ -19,7 +19,7 @@ uMouse SDK · SoniCloud Smart Mouse SDK
 | 平台交付包 Packages | Windows x64 / macOS ARM64 二进制包（`packages/`，当前 0.4.20），其余平台组合联系商务<br>*Windows x64 / macOS ARM64 binaries (`packages/`, currently 0.4.20); other combinations via sales* |
 | 接口文档 Documentation | 中文：[docs/第三方接入说明.md](docs/第三方接入说明.md) · English：[docs/Integration-Guide.en.md](docs/Integration-Guide.en.md)（v2.2：API、事件 JSON 协议、C/C++/C#/Python/Electron 集成、FAQ）<br>*v2.2 — API reference, JSON event protocol, per-language integration guides, FAQ; Chinese and English versions linked* |
 | 头文件 Header | `include/umouse_sdk.h` —— 唯一对外头文件，纯 C ABI<br>*the single public header, pure C ABI* |
-| 示例源码 Samples | `demo/`（最小接入 / 事件打印 / 多设备混合模式，纯 C）<br>*minimal / event printing / multi-device mixed mode, plain C* |
+| 示例源码 Samples | `demo/`（最小接入 / 原始帧 RAW / 多设备混合 / 完全自定义外部硬件，纯 C；见 `demo/README.md`）<br>*minimal / raw frames / multi-device mixed / fully custom hardware, plain C — see `demo/README.md`* |
 | 许可声明 Notices | `THIRD_PARTY_LICENSES.txt` 及随附许可证全文<br>*third-party notices with full license texts* |
 
 ## 能做什么 · What It Does
@@ -56,7 +56,7 @@ uMouse SDK · SoniCloud Smart Mouse SDK
 ├── docs/第三方接入说明.md       完整接入文档 v2.2（中文）
 ├── docs/Integration-Guide.en.md  完整接入文档 v2.2（English）
 ├── include/umouse_sdk.h       对外唯一头文件（纯 C ABI）
-├── demo/                      C 示例（demo.c 最小接入 / demo3.c 多设备）
+├── demo/                      C 示例（demo.c 最小接入 / demo3.c 多设备 / demo4.c 完全自定义硬件，见 demo/README.md）
 ├── packages/                  平台交付包 platform packages
 │   ├── uMouseSdk_0.4.20_Windows_10-11_x64.zip
 │   └── uMouseSdk_0.4.20_macOS_11_arm64.zip
