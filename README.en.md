@@ -1,139 +1,150 @@
-# uMouse SDK · SoniCloud Smart Mouse SDK
+# uMouse SDK — USB HID / BLE Smart Mouse Integration
 
-Languages: [简体中文](README.md) · **English**
+[简体中文](README.md) | **English**
 
-[![release](https://img.shields.io/badge/release-v0.4.20-blue)](https://github.com/SonicloudTech/mouse-sdk/releases) ![platforms](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey) ![arch](https://img.shields.io/badge/arch-x86__64%20%7C%20ARM64-orange) ![ABI](https://img.shields.io/badge/ABI-pure%20C-9cf) [![samples](https://img.shields.io/badge/demo%20samples-MIT-green)](LICENSE)
+[![release](https://img.shields.io/badge/release-v0.4.20-blue)](https://github.com/SonicloudTech/mouse-sdk/releases/tag/v0.4.20) ![ABI](https://img.shields.io/badge/ABI-pure%20C-9cf) [![samples](https://img.shields.io/badge/demo%20samples-MIT-green)](LICENSE)
 
-> A **cross-platform, cross-architecture** smart mouse SDK: Windows / macOS / Linux (incl. Chinese domestic systems UOS, Kylin, FangDe) × x86_64 / ARM64, dual-channel USB (HID) & BLE (Bluetooth Low Energy), pure C ABI.
+**SoniCloud Smart Mouse SDK (uMouse SDK)** connects USB HID and BLE devices through a unified C ABI, providing device discovery, connection management, key events, JSON device information, and PCM audio for hardware vendors, application developers, and system integrators. Call it from C/C++, C#, Python, or Electron / Node.js.
 
-The SoniCloud Smart Mouse SDK is a smart-mouse integration solution for hardware vendors, software developers, and industry integrators: one unified C interface and event protocol covering the full chain of device discovery, connection, and key / event / audio data delivery. This repository provides:
+Requires compatible SoniCloud hardware or your own hardware adapted through RAW mode; installing the SDK does not add these capabilities to an arbitrary mouse. This repository provides **binary SDK packages, a public header, documentation, and MIT-licensed sample code**. See the [license scope](#license-scope) for SDK binaries and proprietary protocols.
 
-| Resource | Description |
+## Downloads and Developer Resources
+
+| Resource | Link |
 |---|---|
-| Platform packages | Windows x64 / macOS ARM64 binary packages (`packages/`, currently 0.4.20); other platform combinations via sales |
-| Documentation | English: [docs/Integration-Guide.en.md](docs/Integration-Guide.en.md) · 中文: [docs/第三方接入说明.md](docs/第三方接入说明.md) (both v2.2 — API reference, JSON event protocol, C/C++/C#/Python/Electron integration, FAQ) |
-| Header | `include/umouse_sdk.h` — the single public header, pure C ABI |
-| Samples | `demo/` (minimal / event printing / multi-device mixed mode, plain C) |
-| Notices | `THIRD_PARTY_LICENSES.txt` with accompanying license texts |
+| Windows 10 / 11 x64 · SDK 0.4.20 | [Download Windows ZIP](https://github.com/SonicloudTech/mouse-sdk/releases/download/v0.4.20/uMouseSdk_0.4.20_Windows_10-11_x64.zip) |
+| macOS 11+ ARM64 · SDK 0.4.20 | [Download Apple Silicon ZIP](https://github.com/SonicloudTech/mouse-sdk/releases/download/v0.4.20/uMouseSdk_0.4.20_macOS_11_arm64.zip) |
+| Release notes and all releases | [GitHub Releases](https://github.com/SonicloudTech/mouse-sdk/releases) |
+| Full integration documentation v2.2 | [English guide](docs/Integration-Guide.en.md) · [中文指南](docs/第三方接入说明.md) |
+| C samples and public API | [Choose a sample](#examples) · [umouse_sdk.h](include/umouse_sdk.h) |
+| Linux / UOS / Kylin / FangDe packages, compatible hardware, and evaluation units | [Access and technical support](#hardware-access) |
+
+## Quick Start
+
+1. Get the sample source code:
+
+   ```sh
+   git clone https://github.com/SonicloudTech/mouse-sdk.git
+   cd mouse-sdk
+   ```
+
+2. Download the ZIP matching your OS and architecture above. Extract it into the repository root and confirm that `uMouseSdk/include/umouse_sdk.h` and the SDK libraries are present. The same two platform packages are also available in [packages/](packages/).
+3. Connect compatible hardware, then build and run the minimal sample from the repository root. On Windows, use an **x64 MSVC developer command prompt**; on macOS, install Xcode Command Line Tools.
+
+**Windows x64:**
+
+```bat
+cl /I uMouseSdk\include demo\demo.c /Fe:umouse-demo.exe /link /LIBPATH:uMouseSdk uMouseSdk.lib
+set "PATH=%CD%\uMouseSdk;%PATH%"
+umouse-demo.exe
+```
+
+**macOS ARM64:**
+
+```sh
+cc -IuMouseSdk/include demo/demo.c -LuMouseSdk -luMouseSdk -Wl,-rpath,@executable_path/uMouseSdk -o umouse-demo
+./umouse-demo
+```
+
+Keep the packaged runtime libraries alongside the main SDK library. See the package README for Windows DLL and VC runtime loading details. On macOS, allow Bluetooth access when first using BLE; the package includes its FFmpeg libraries, so no separate installation is needed.
+
+The sample prints the SDK version, followed by `[connected]` when a device comes online, then device events and audio lengths. Received PCM is saved to `out.pcm`. Press Enter to exit. **A version string confirms library loading; use device connection events and callback data to confirm the hardware connection.**
+
+Core sequence: **register callbacks → `um_sdk_init()` → run your application → `um_sdk_close()`**. The SDK supplies key events, device events, and audio; speech recognition and key-to-action mapping belong to your application. See the [full integration guide](docs/Integration-Guide.en.md) for details and troubleshooting.
+
+<a id="examples"></a>
+
+## Choose a Sample
+
+| Use case | Sample |
+|---|---|
+| SoniCloud device basics: keys, device information, and PCM audio | [demo.c](demo/demo.c) — minimal FULL-mode integration |
+| Raw frames from a SoniCloud device, parsed by your application | [demo2.c](demo/demo2.c) — RAW mode, handshake, and channel switching |
+| SoniCloud devices and custom devices connected together | [demo3.c](demo/demo3.c) — multiple rules and devices, FULL / RAW coexistence |
+| External hardware with custom identifiers, handshake, and parsing | [demo4.c](demo/demo4.c) — complete example replacing the default rule |
+
+`demo4.c` currently uses real SoniCloud identifiers and protocol messages to demonstrate the integration flow. For your own hardware, replace its `HW_*` configuration, handshake, and parsing logic. A custom USB hardware data channel must occupy the selected interface's first HID top-level collection or a dedicated interface, and support Output Report or Feature Report writes. See the [sample guide (Chinese)](demo/README.md) for the complete prerequisites and sample selection; arbitrary USB / BLE hardware still requires adaptation.
 
 ## Capabilities
 
-- **Device discovery & connection**: plug-and-play USB 2.4G dongles; BLE scanning with automatic takeover; automatic channel preference (USB first) with runtime switching — device identity (SN) stays stable across channels;
-- **Multi-device concurrency**: multiple units of the same model share one rule (4 devices per rule / 8 global by default, configurable); each device gets an independent parsing pipeline;
-- **Key events**: speech / translation / M / AI / capture keys with down, up, hold and click actions; unknown key types are passed through as raw key codes (`code`) — **no business mapping is applied**;
-- **Discrete events (JSON)**: device info (SN / battery / meeting state), DPI broadcasts, meeting lifecycle with global exclusivity, and a unified warning envelope (pairing broken / device count / BLE link count alerts);
-- **Audio output**: built-in SBC / ADPCM decoding delivers PCM (16 kHz / 16-bit / mono), or passes raw encoded blocks through for your own decoder;
-- **RAW mode**: integrate hardware with custom protocols — custom handshake, device-matching and SN-extraction callbacks, plus `um_write_raw` for bidirectional passthrough;
-- **Diagnostics**: process-level crash recorder (technical data only), internal logging switch, queue-health reporting.
+- **Device discovery and connection:** plug-and-play USB 2.4G receivers, BLE scanning and automatic takeover, USB-preferred channel selection, and runtime switching with stable device identity (SN) across channels.
+- **Multiple devices:** units of the same model can share a rule; configurable defaults are 4 devices per rule and 8 globally, with independent parsing per device.
+- **Key events:** speech / translation / M / AI / capture keys with down, up, hold, and click actions. Unsupported key types pass through as raw `code` values, without application-specific mapping.
+- **JSON device events:** SN, battery, meeting state, DPI broadcasts, meeting lifecycle and exclusive scheduling, plus pairing, device-count, and BLE-link-count warnings.
+- **Audio:** built-in SBC / ADPCM and other decoding to PCM (16 kHz / 16-bit / mono), or raw encoded blocks for application-side decoding.
+- **RAW mode:** custom handshake, device matching, SN extraction, and protocol parsing, with bidirectional transfer through `um_write_raw`.
+- **Diagnostics:** process crash records excluding application data, internal logging controls, and queue-health reporting.
 
-## Platform Support (cross-OS × cross-arch)
+## Platforms and Architectures
 
-| OS | Architecture | USB | BLE | Package |
+| OS | Architecture | USB | BLE | Distribution |
 |---|---|---|---|---|
-| Windows 10 / 11 | x64 | ✅ | ✅ | This repo, `packages/` |
-| macOS 11+ | arm64 (Apple Silicon) | ✅ | ✅ | This repo, `packages/` |
-| UOS (UnionTech) | x86_64 / ARM64 | ✅ | ✅ | Contact sales |
-| Kylin | x86_64 / ARM64 | ✅ | ✅ | Contact sales |
-| FangDe | x86_64 / ARM64 | ✅ | ✅ | Contact sales |
-| Generic Linux | x86_64 | ✅ | ✅ | Contact sales |
-| macOS (Intel) | x86_64 | ✅ | ✅ | Contact sales |
+| Windows 10 / 11 | x64 | ✅ | ✅ | [Public download](https://github.com/SonicloudTech/mouse-sdk/releases/download/v0.4.20/uMouseSdk_0.4.20_Windows_10-11_x64.zip) |
+| macOS 11+ | ARM64 (Apple Silicon) | ✅ | ✅ | [Public download](https://github.com/SonicloudTech/mouse-sdk/releases/download/v0.4.20/uMouseSdk_0.4.20_macOS_11_arm64.zip) |
+| UOS (UnionTech) | x86_64 / ARM64 | ✅ | ✅ | [Contact us](#hardware-access) |
+| Kylin | x86_64 / ARM64 | ✅ | ✅ | [Contact us](#hardware-access) |
+| FangDe | x86_64 / ARM64 | ✅ | ✅ | [Contact us](#hardware-access) |
+| Generic Linux | x86_64 | ✅ | ✅ | [Contact us](#hardware-access) |
+| macOS (Intel) | x86_64 | ✅ | ✅ | [Contact us](#hardware-access) |
 
-> The SDK is cross-platform and cross-architecture **at the source level** (CMake project, Windows / macOS / Linux, built per architecture): the same C ABI and JSON event protocol on every platform, so your integration code never changes per platform; binaries are built per OS × architecture and are not interchangeable. This repository currently ships Windows x64 and macOS ARM64 packages; the remaining combinations are supported as well — contact sales for their packages.
+The internal SDK source uses CMake to build for different operating systems and architectures, with a shared public C ABI and JSON event protocol. **This repository distributes packages and integration resources, not the complete SDK source.** Windows x64 and macOS ARM64 packages are publicly downloadable; contact us for the other combinations above. Binaries are built separately for each OS and architecture and are not interchangeable; Linux distributions also require matching packages.
+
+## Language Integration
+
+| Language | Integration method |
+|---|---|
+| C / C++ | Header and import library, MSVC / MinGW / clang / gcc |
+| C# / .NET | P/Invoke |
+| Python | Standard-library `ctypes` |
+| Electron / Node.js | FFI libraries such as `koffi` |
+
+Language snippets, callback lifetime rules, and API details are available in the [English integration guide](docs/Integration-Guide.en.md) and [Chinese integration guide](docs/第三方接入说明.md). The standalone compilable samples in this repository are the four C programs above.
+
+## Use Cases and Related Project
+
+- Hardware input for voice typing, translation tools, and meeting-note applications.
+- Hardware vendors integrating their own device protocols through RAW mode.
+- System integrators deploying device connectivity on x86_64 / ARM64 UOS, Kylin, FangDe, and other Chinese domestic IT platforms.
+
+For AI agents operating a physical mouse, see [mouse-mcp (uMouse MCP server)](https://github.com/SonicloudTech/mouse-mcp). It exposes mouse actions and voice-input integration through MCP and compatible uMouse USB hardware, **currently on Windows x64**. This SDK serves application and hardware integration; consult the MCP repository for its own platform and hardware requirements.
 
 ## Repository Layout
 
-```
-├── README.md                  This repo's README (Chinese)
-├── README.en.md               English README (this file)
-├── docs/Integration-Guide.en.md  Full integration documentation, v2.2 (English)
-├── docs/第三方接入说明.md       Same documentation in Chinese, v2.2
-├── include/umouse_sdk.h       The single public header (pure C ABI)
-├── demo/                      C samples (demo.c minimal / demo3.c multi-device)
-├── packages/                  Platform packages
-│   ├── uMouseSdk_0.4.20_Windows_10-11_x64.zip
-│   └── uMouseSdk_0.4.20_macOS_11_arm64.zip
-├── img/                       Contact QR code and other assets
-├── LICENSE                    MIT License (demo samples)
-├── THIRD_PARTY_LICENSES.txt   Third-party notices
-├── COPYING.LGPLv2.1           LGPL v2.1 full text (FFmpeg)
-└── LICENSE.hidapi-bsd         HIDAPI BSD-3-Clause full text
+```text
+├── README.md                    Chinese README
+├── README.en.md                 English README
+├── docs/第三方接入说明.md        Chinese integration guide v2.2
+├── docs/Integration-Guide.en.md  English integration guide v2.2
+├── include/umouse_sdk.h          Public C ABI header
+├── demo/                        demo.c / demo2.c / demo3.c / demo4.c
+├── packages/                    SDK 0.4.20: Windows x64 / macOS ARM64 ZIPs
+├── img/                         Contact QR code
+├── LICENSE                      MIT sample-code license
+├── THIRD_PARTY_LICENSES.txt      Third-party notices
+├── COPYING.LGPLv2.1             FFmpeg license text
+└── LICENSE.hidapi-bsd            HIDAPI license text
 ```
 
-## Quick Start (5 minutes)
+<a id="hardware-access"></a>
 
-Unzip the package for your platform and build the minimal sample `demo/demo.c` at the repository root:
+## Hardware, Other Platform Packages, and Support
 
-```bat
-REM Windows (MSVC developer prompt)
-cl /I uMouseSdk\include demo\demo.c /Fe:demo.exe /link /LIBPATH:uMouseSdk uMouseSdk.lib
-set PATH=%CD%\uMouseSdk;%PATH%
-demo.exe
-```
+Contact **SoniCloud (安徽声云智能科技有限公司)** for compatible hardware specifications, evaluation units, the full protocol, Linux / Chinese domestic OS and other architecture packages, commercial licensing, or technical support. Include your target OS and architecture, device model, expected volume, and use case.
 
-```bash
-# macOS
-cc -IuMouseSdk/include demo/demo.c -LuMouseSdk -luMouseSdk -o demo && ./demo
-```
+- Business and technical contact: [xu_heng_yu@sinicloud.com](mailto:xu_heng_yu@sinicloud.com)
+- Website: [sinicloud.com](https://sinicloud.com/)
+- Speech open platform: [open.sinicloud.com](https://open.sinicloud.com/)
 
-Core call order: **register callbacks → `um_sdk_init()` → run your business logic → `um_sdk_close()`**.
-The SDK faithfully delivers hardware data (key events / JSON discrete events / PCM audio on three
-callback lines); what the M key does and how audio gets recognized is entirely up to you. For the
-full walkthrough and per-language guides see the [Integration Guide (English)](docs/Integration-Guide.en.md)
-or its Chinese original [docs/第三方接入说明.md](docs/第三方接入说明.md).
+<img src="img/微信.png" alt="SoniCloud technical and business contact WeChat QR code" width="200">
 
-## Integration Languages
+<a id="license-scope"></a>
 
-Pure C ABI — callable from mainstream languages with no proprietary runtime:
+## License Scope and Third-Party Components
 
-| Language | How |
-|---|---|
-| C / C++ | link directly against the header + import library (MSVC / MinGW / clang / gcc) |
-| C# (.NET) | P/Invoke, no third-party dependencies |
-| Python | standard library ctypes |
-| Electron / Node.js | koffi or other FFI libraries |
+Sample code under `demo/` is released under the [MIT License](LICENSE). SDK binaries, proprietary device protocols, and some documents may contain proprietary content belonging to SoniCloud or its partners; the project is not open source as a whole. Commercial use is governed by the accompanying notices and the agreement between the parties. The SDK does not replace application-side speech recognition or business mapping. Do not use proprietary protocols for unauthorized hardware or products.
 
-## Use Cases
+SDK binaries dynamically link FFmpeg (LGPL-2.1+, shipped as separate libraries that end users can replace) and statically embed HIDAPI (BSD-3-Clause). The macOS package uses a minimal FFmpeg build containing only the required audio decoders and no GPL components; its build configuration is in the package README. See the [third-party notices](THIRD_PARTY_LICENSES.txt), [LGPL text](COPYING.LGPLv2.1), and [HIDAPI license](LICENSE.hidapi-bsd) for attribution and use requirements.
 
-- Hardware input for voice input, translation tools and meeting-note productivity software;
-- Hardware vendors building on their own protocols (RAW-mode custom integration);
-- Industry integrators deploying on Xinchuang (Chinese domestic IT) terminals — UOS / Kylin / FangDe, x86 / ARM64 — with one codebase.
+## Reporting Issues
 
-## Hardware & SDK Access
-
-For packages of Chinese domestic OS platforms (UOS / Kylin / FangDe) and other architectures,
-hardware specs, evaluation units, the full protocol, a WeChat QR code, or technical
-support materials, contact **SoniCloud** (安徽声云智能科技有限公司):
-[sinicloud.com](https://www.sinicloud.com/), open platform [open.sinicloud.com](https://open.sinicloud.com/).
-Please mention your target platform, expected volume and use case.
-
-<img src="img/微信.png" alt="WeChat" width="200" style="max-width: 100%; height: auto;">
-
-<br>
-
-**Business & technical contact:** [xu_heng_yu@sinicloud.com](mailto:xu_heng_yu@sinicloud.com)
-
-## Third-Party Components & Licensing
-
-The SDK binaries dynamically link FFmpeg (LGPL-2.1+, shipped as standalone dynamic libraries that
-end users may replace) and statically embed HIDAPI (BSD-3-Clause). The macOS package ships a
-minimal audio-only FFmpeg build containing no GPL components (build configuration in the package
-README). Attribution and obligations are detailed in `THIRD_PARTY_LICENSES.txt` and the
-accompanying license texts.
-
-## License & Scope of Use
-
-Sample code under `demo/` is released under the MIT License. SDK binaries, the device's
-proprietary protocol, and some documents may contain proprietary content of SoniCloud or its
-partners and are not open source as a whole; the commercial scope is governed by the accompanying
-notices and the commercial agreement between the parties. The SDK faithfully delivers hardware
-data and does not replace application-side responsibilities such as speech recognition or business
-mapping. Do not use the proprietary protocol for unauthorized hardware or products.
-
-## Feedback & Issues
-
-Please attach the logs enabled via `um_sdk_init(1)`, your target platform, and the SDK version
-(`um_sdk_version()`), then open an issue.
-
----
-
-*Keywords: smart mouse SDK, mouse SDK, uMouse SDK, SoniCloud, voice mouse, AI mouse, BLE SDK, HID SDK, USB SDK, cross-platform, cross-architecture, Windows, macOS, Linux, ARM64, Xinchuang, UOS, Kylin, FangDe*
+Open a [GitHub issue](https://github.com/SonicloudTech/mouse-sdk/issues) with your target OS and architecture, device model, SDK version (`um_sdk_version()`), reproduction steps, and relevant logs enabled by `um_sdk_init(1)`.
