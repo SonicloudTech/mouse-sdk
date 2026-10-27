@@ -150,4 +150,4 @@ SDK 二进制动态链接 FFmpeg（LGPL-2.1+，独立动态库随附，可由最
 请通过 [GitHub Issues](https://github.com/SonicloudTech/mouse-sdk/issues) 反馈，并附上目标系统与架构、设备型号、SDK 版本（`um_sdk_version()`）、复现步骤及 `um_sdk_init(1)` 开启的相关日志。
 
 ## 鸣谢
-   AtomGit:在国内托管 AIRI，帮助中国大陆用户更快访问项目与下载Release。
+   [AtomGit](https://atomgit.com/SonicloudTech/mouse-sdk)：荣获AtomGit 官方 G-Star 优质开源项目认证。
