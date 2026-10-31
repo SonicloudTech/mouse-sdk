@@ -8,6 +8,8 @@
 
 需要兼容的声云硬件，或按 RAW 模式完成适配的自有硬件；普通鼠标不能仅凭安装 SDK 获得这些能力。仓库提供**二进制 SDK、公开头文件、文档和 MIT 示例代码**，SDK 二进制及私有协议的使用范围见[许可说明](#license-scope)。
 
+[下载与开发入口](#下载与开发入口) · [快速开始](#快速开始) · [兼容性与常见问题](#faq) · [硬件与支持](#hardware-access)
+
 ## 下载与开发入口
 
 | 资源 | 入口 |
@@ -144,6 +146,30 @@ SDK 内部源码以 CMake 工程跨系统、跨架构构建，公开接口使用
 仓库内 `demo/` 示例代码以 [MIT License](LICENSE) 发布。SDK 二进制库、设备私有协议和部分文档可能包含声云或厂商专有内容，不等同于全部开源，商用范围以随包说明及双方商务协议为准。SDK 不替代应用侧的语音识别或业务映射。请勿将私有协议用于未获授权的硬件或产品。
 
 SDK 二进制动态链接 FFmpeg（LGPL-2.1+，独立动态库随附，可由最终用户自行替换），并静态编入 HIDAPI（BSD-3-Clause）。macOS 包使用按实际音频解码器裁剪的最小 FFmpeg 构建，不含 GPL 组件；构建配置见包内 README。署名与使用要求见[第三方组件声明](THIRD_PARTY_LICENSES.txt)、[LGPL 文本](COPYING.LGPLv2.1)及 [HIDAPI 许可](LICENSE.hidapi-bsd)。
+
+<a id="faq"></a>
+
+## USB HID / BLE SDK 常见问题
+
+### 这是支持任意 USB 或蓝牙鼠标的通用驱动吗？
+
+不是。FULL 模式处理兼容的声云设备；自有硬件需要通过 RAW 模式适配设备匹配、握手和帧解析。可从[示例选择说明](demo/README.md)及 `demo4.c` 开始，具有 USB 或 BLE 连接本身并不足以接入。
+
+### Python、Electron 和 C# 可以调用吗？
+
+可以通过公开 C ABI 调用：Python 使用 `ctypes`，Electron / Node.js 可使用 `koffi` 等 FFI 库，C# 使用 P/Invoke。应用进程架构必须匹配原生包；保持回调对象存活，如需保留回调缓冲区，应在回调返回前复制，并遵守[接入指南](docs/第三方接入说明.md)的生命周期约定。仓库提供的独立可编译示例是 C 程序，并非每种语言都有打包应用。
+
+### 明明有 uMouseSdk.dll，为什么仍然加载失败？
+
+检查进程架构、动态库搜索路径和下载包内的全部运行依赖。保留 SDK 随附的 FFmpeg 与 VC 运行库 DLL，并按包内 README 配置加载方式，不要只复制主 DLL。macOS 同样需要保留配套 dylib，使用 BLE 时允许蓝牙访问。
+
+### Linux 和 ARM64 的包在哪里下载？
+
+当前公开的 [v0.4.20 发布](https://github.com/SonicloudTech/mouse-sdk/releases/tag/v0.4.20)包含 Windows x64 与 macOS ARM64 包。[平台矩阵](#平台与架构)中的 Linux、UOS、麒麟、方德及其他组合通过[技术支持](#hardware-access)获取。申请时说明准确的系统和架构；不同平台二进制不能互换。
+
+### SDK 自带语音识别或 MCP 服务器吗？
+
+SDK 提供设备事件和音频，应用负责语音识别与业务动作。需要 AI 智能体控制硬件鼠标时，使用独立的 [mouse-mcp 服务器](https://github.com/SonicloudTech/mouse-mcp)；它的公开发布包面向 Windows x64，并需要兼容硬件。SDK 二进制许可与 [MIT 示例代码许可](#license-scope)分别适用。
 
 ## 反馈问题
 

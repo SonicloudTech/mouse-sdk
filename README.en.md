@@ -8,6 +8,8 @@
 
 Requires compatible SoniCloud hardware or your own hardware adapted through RAW mode; installing the SDK does not add these capabilities to an arbitrary mouse. This repository provides **binary SDK packages, a public header, documentation, and MIT-licensed sample code**. See the [license scope](#license-scope) for SDK binaries and proprietary protocols.
 
+[Downloads](#downloads-and-developer-resources) · [Quick start](#quick-start) · [Compatibility & FAQ](#faq) · [Hardware & support](#hardware-access)
+
 ## Downloads and Developer Resources
 
 | Resource | Link |
@@ -144,6 +146,30 @@ Contact **SoniCloud (安徽声云智能科技有限公司)** for compatible hard
 Sample code under `demo/` is released under the [MIT License](LICENSE). SDK binaries, proprietary device protocols, and some documents may contain proprietary content belonging to SoniCloud or its partners; the project is not open source as a whole. Commercial use is governed by the accompanying notices and the agreement between the parties. The SDK does not replace application-side speech recognition or business mapping. Do not use proprietary protocols for unauthorized hardware or products.
 
 SDK binaries dynamically link FFmpeg (LGPL-2.1+, shipped as separate libraries that end users can replace) and statically embed HIDAPI (BSD-3-Clause). The macOS package uses a minimal FFmpeg build containing only the required audio decoders and no GPL components; its build configuration is in the package README. See the [third-party notices](THIRD_PARTY_LICENSES.txt), [LGPL text](COPYING.LGPLv2.1), and [HIDAPI license](LICENSE.hidapi-bsd) for attribution and use requirements.
+
+<a id="faq"></a>
+
+## USB HID / BLE SDK: frequently asked questions
+
+### Is this a universal driver for any USB or Bluetooth mouse?
+
+No. FULL mode handles compatible SoniCloud devices. Your own hardware requires RAW-mode adaptation of device matching, handshake, and frame parsing. Start with the [sample selection guide](demo/README.md) and `demo4.c`; having a USB or BLE connection alone is insufficient.
+
+### Can I use the SDK from Python, Electron, or C#?
+
+Yes, through the public C ABI: Python uses `ctypes`, Electron / Node.js can use an FFI library such as `koffi`, and C# uses P/Invoke. Match the application's process architecture to the native package. Keep callback objects alive, copy callback buffers before returning if retaining them, and follow the lifecycle rules in the [integration guide](docs/Integration-Guide.en.md). The standalone samples in this repository are C programs, not packaged applications for every language.
+
+### Why does the library fail to load even when uMouseSdk.dll exists?
+
+Check the process architecture, library search path, and all runtime dependencies in the downloaded package. Keep its FFmpeg and VC runtime DLLs with the SDK and follow the package README's loading instructions. Do not copy only the main DLL. On macOS, keep the bundled dylibs together and allow Bluetooth access when using BLE.
+
+### Where are the Linux and ARM64 downloads?
+
+The current public [v0.4.20 release](https://github.com/SonicloudTech/mouse-sdk/releases/tag/v0.4.20) contains Windows x64 and macOS ARM64 packages. Linux, UOS, Kylin, FangDe, and other combinations listed in the [platform matrix](#platforms-and-architectures) are available through [technical support](#hardware-access). Request the exact OS and architecture; binaries are not interchangeable.
+
+### Does the SDK include speech recognition or an MCP server?
+
+The SDK supplies device events and audio; your application implements speech recognition and business actions. For AI-agent hardware mouse control, use the separate [mouse-mcp server](https://github.com/SonicloudTech/mouse-mcp), whose published packages target Windows x64 and require compatible hardware. SDK binary licensing is separate from the [MIT sample-code license](#license-scope).
 
 ## Reporting Issues
 
